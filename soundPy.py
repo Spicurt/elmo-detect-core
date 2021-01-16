@@ -3,7 +3,7 @@ from configparser import ConfigParser
 import time
 
 parser = ConfigParser()
-parser.read('config.ini')
+parser.read('./config/config.ini')
 
 while True:
     time.sleep(5.8)
