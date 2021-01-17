@@ -31,7 +31,9 @@ imshow('face detection', img)
 
 if k%256 == 27:
     img:release()
-    
+
 waitKey(0)
 
 destroyAllWindows()
+
+import pictureTake
