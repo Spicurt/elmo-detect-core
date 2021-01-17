@@ -1,11 +1,8 @@
 from multiprocessing import Process
 
-def sound():
-    import soundPy
-
-def FaceDetect():
-    import faceDetect
+def mainProcess():
+    import pictureTake
 
 if __name__ == '__main__':
-    Process(target=sound).start()
-    Process(target=FaceDetect).start()
+    Main = Process(target = mainProcess)
+    Main.start()

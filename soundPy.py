@@ -6,8 +6,8 @@ import json
 f = open('./config/config.json', 'r')
 data = json.load(f)
 
-while True:
-    time.sleep(5.8)
-    playsound(data["SoundFile"])
+
+time.sleep(5.8)
+playsound(data["SoundFile"])
     
 

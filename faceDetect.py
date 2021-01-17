@@ -1,40 +1,37 @@
-import numpy as np
+from cv2 import imread
+from cv2 import imshow
+from cv2 import waitKey
+from cv2 import destroyAllWindows
+from cv2 import CascadeClassifier
+from cv2 import rectangle
 import cv2
 
-# multiple cascades: https://github.com/Itseez/opencv/tree/master/data/haarcascades
-face_cascade = cv2.CascadeClassifier("./lib/haarcascade/haarcascade_frontalface_default.xml")
-rightEye_cascade = cv2.CascadeClassifier("./lib/haarcascade/haarcascade_righteye_2splits.xml")
-leftEye_cascade = cv2.CascadeClassifier("./lib/haarcascade/haarcascade_lefteye_2splits.xml")
-mouth_nose_cascade = cv2.CascadeClassifier("./lib/haarcascade/haarcascade_mcs_mouth_nose.xml")
+k = cv2.waitKey(1)
 
-cap = cv2.VideoCapture(0)
+img = imread('./images/Photo.png')
 
-while 1:
-    ret, img = cap.read()
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+classifier = CascadeClassifier('./lib/haarcascade/haarcascade_frontalface_default.xml')
+eye_classifier = CascadeClassifier('./lib/haarcascade/haarcascade_eye_tree_eyeglasses.xml')
 
-    for (x,y,w,h) in faces:
-        cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-        roi_gray = gray[y:y+h, x:x+w]
-        roi_color = img[y:y+h, x:x+w]
-        
-        rightEye = rightEye_cascade.detectMultiScale(roi_gray)
-        for (ex,ey,ew,eh) in rightEye:
-            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+faceBox = classifier.detectMultiScale(img)
 
-        leftEye = leftEye_cascade.detectMultiScale(roi_gray)
-        for (ex,ey,ew,eh) in leftEye:
-            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+for box in faceBox:
+    x, y, width, height = box
+    x2, y2 = x + width, y + height
+    rectangle(img, (x, y), (x2, y2), (0,0,255), 1)
 
-        mouth_nose = mouth_nose_cascade.detectMultiScale(roi_gray)
-        for (ex,ey,ew,eh) in mouth_nose:
-            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,0,255),2)
+eyeBoxes = eye_classifier.detectMultiScale(img)
 
-    cv2.imshow('img',img)
-    k = cv2.waitKey(30) & 0xff
-    if k == 27:
-        break
+for box in eyeBoxes:
+    x, y, width, height = box
+    x2, y2 = x + width, y + height
+    rectangle(img, (x, y), (x2, y2), (0,255,0), 1)
 
-cap.release()
-cv2.destroyAllWindows()
+imshow('face detection', img)
+
+if k%256 == 27:
+    img:release()
+    
+waitKey(0)
+
+destroyAllWindows()
