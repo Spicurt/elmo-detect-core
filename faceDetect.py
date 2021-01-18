@@ -36,4 +36,3 @@ waitKey(0)
 
 destroyAllWindows()
 
-import pictureTake

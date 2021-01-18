@@ -1,4 +1,11 @@
 import cv2
+import threading
+
+def faceDet():
+    import faceDetect
+    pass
+
+detect = threading.Thread(target=faceDet)
 
 img = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -22,9 +29,9 @@ while True:
         # SPACE pressed
         img_name = "Photo.png".format(img_counter)
         cv2.imwrite("./images/Photo.png", frame)
+        detect.start
         print("{} written!".format(img_name))
         img_counter += 1
         
 img.release()
 
-import faceDetect
