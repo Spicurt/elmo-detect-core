@@ -1,11 +1,6 @@
 import cv2
 from multiprocessing import Process
-
-def faceDet():
-    import faceDetect
-
-
-detect = Process(target=faceDet)
+from subprocess import call
 
 img = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -29,7 +24,7 @@ while True:
         # SPACE pressed
         img_name = "Photo.png".format(img_counter)
         cv2.imwrite("./images/Photo.png", frame)
-        detect.start()   
+        call(["python", "faceDetect.py"])  
         print("{} written!".format(img_name))
         img_counter += 1
         

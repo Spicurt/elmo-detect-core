@@ -29,9 +29,6 @@ for box in eyeBoxes:
 
 imshow('Face Detection', img)
 
-if k%256 == 27:
-    img:release()
-
 waitKey(0)
 
 destroyAllWindows()
