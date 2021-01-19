@@ -1,0 +1,7 @@
+DEVELOPMENT LOG
+
+Day 1: Worked on some core mechanics, planned out the API.
+
+Day 3: Coutinued working on core mechanics, added sound.
+
+Day 5: Removed sound, changed the whole face detection system.
