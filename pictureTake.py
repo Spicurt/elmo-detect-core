@@ -3,20 +3,17 @@ from multiprocessing import Process
 from subprocess import call
 import time
 import sys
-
+import random
+import numpy
+from playsound import playsound
 sys.path.insert(1, './config/')
-
-from configFunctions import detect
+import SoundConfig
 
 img = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
-def make_1080p():
-    img.set(3, 1920)
-    img.set(4, 1080)
-
-make_1080p()
-
 font = cv2.FONT_HERSHEY_SIMPLEX
+
+play = Process(target = SoundStart)
 
 cv2.namedWindow("Picture Take")
 
@@ -25,8 +22,8 @@ img_counter = 0
 while True:
     ret, frame = img.read()
 
-    cv2.putText(frame,'Press space to take start.',(50, 50),font, 1,(0, 0, 0),2,cv2.LINE_4) 
-    cv2.putText(frame,'Press escape to leave.',(50, 100),font, 1,(0, 0, 0),2,cv2.LINE_4)
+    cv2.putText(frame,'Press space to take start.',(15, 15),font, 0.5,(0, 0, 0),2,cv2.LINE_4) 
+    cv2.putText(frame,'Press escape to leave.',(15, 30),font, 0.5,(0, 0, 0),2,cv2.LINE_4)
 
     if not ret:
         print("failed to grab frame")
@@ -45,12 +42,17 @@ while True:
         img_name = "Photo.png".format(img_counter)
         cv2.imwrite("./images/Photo.png", frame)
         print("{} written!".format(img_name))
+        
+        #Facedetect Loop
+        
+        
+        playedSound = random.choice(Sounds)
+        
         while True:
             img_e = cv2.imread("./images/Photo.png")
 
-            classifier = cv2.CascadeClassifier('./Source/haarcascade_frontalface_alt_tree.xml')
-            righteye_classifier = cv2.CascadeClassifier('./Source/haarcascade_righteye_2splits.xml')
-            lefteye_classifier = cv2.CascadeClassifier('./Source/haarcascade_lefteye_2splits.xml')
+            classifier = cv2.CascadeClassifier('./Resource/haarcascade_frontalface_alt_tree.xml')
+            eye_classifier = cv2.CascadeClassifier('./Resource/haarcascade_eye_default.xml')
 
             faceBox = classifier.detectMultiScale(img_e)
 
@@ -59,25 +61,15 @@ while True:
                 x2, y2 = x + width, y + height
                 cv2.rectangle(img_e, (x, y), (x2, y2), (0,0,255), 1)
 
-            ReyeBoxes = righteye_classifier.detectMultiScale(img_e)
+            eyeBoxes = eye_classifier.detectMultiScale(img_e)
 
-            for box in ReyeBoxes:
-                x, y, width, height = box
-                x2, y2 = x + width, y + height
-                cv2.rectangle(img_e, (x, y), (x2, y2), (0,255,0), 1)
-                img_counter += 1
-                
-            LeyeBoxes = lefteye_classifier.detectMultiScale(img_e)
-
-            for box in LeyeBoxes:
+            for box in eyeBoxes:
                 x, y, width, height = box
                 x2, y2 = x + width, y + height
                 cv2.rectangle(img_e, (x, y), (x2, y2), (0,255,0), 1)
                 img_counter += 1
 
             cv2.imshow('Face Detection', img_e) 
-
+            play.start()
             if cv2.waitKey(1):
                 break
-        
-
