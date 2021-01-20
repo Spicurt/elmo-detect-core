@@ -6,8 +6,6 @@ import json
 f = open('./config/config.json', 'r')
 data = json.load(f)
 
-
-time.sleep(5.8)
 playsound(data["SoundFile"])
     
 

@@ -27,13 +27,11 @@ for box in eyeBoxes:
     x2, y2 = x + width, y + height
     rectangle(img, (x, y), (x2, y2), (0,255,0), 1)
 
-imshow('face detection', img)
+imshow('Face Detection', img)
 
 if k%256 == 27:
-    img:release()
+    sys.exit()
 
 waitKey(0)
 
 destroyAllWindows()
-
-import pictureTake
