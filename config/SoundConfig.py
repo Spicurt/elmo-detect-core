@@ -5,7 +5,8 @@ Sounds = [
             "./Sounds/insult1.wav"
         ]
 
-soundToPlay = random.choice(Sounds)
+
 
 def SoundStart():
+    soundToPlay = random.choice(Sounds)
     playsound(soundToPlay)

@@ -7,7 +7,10 @@ import random
 import numpy
 from playsound import playsound
 sys.path.insert(1, './config/')
-import SoundConfig
+Sounds = [
+            "./Sounds/insult1.wav"
+        ]   
+from SoundConfig import SoundStart
 
 img = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -49,6 +52,8 @@ while True:
         playedSound = random.choice(Sounds)
         
         while True:
+            s = Process(target = SoundStart)
+
             img_e = cv2.imread("./images/Photo.png")
 
             classifier = cv2.CascadeClassifier('./Resource/haarcascade_frontalface_alt_tree.xml')
@@ -70,6 +75,8 @@ while True:
                 img_counter += 1
 
             cv2.imshow('Face Detection', img_e) 
-            play.start()
+
+            s.start()
+            
             if cv2.waitKey(1):
                 break
