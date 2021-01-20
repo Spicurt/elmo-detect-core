@@ -11,6 +11,7 @@ Sounds = [
             "./Sounds/insult1.wav"
         ]   
 from SoundConfig import SoundStart
+from SoundConfig import helloElmo
 
 img = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -22,6 +23,9 @@ cv2.namedWindow("Picture Take")
 
 img_counter = 0
 
+hiElmo = Process(target = helloElmo)
+
+hiElmo.start()
 while True:
     ret, frame = img.read()
 
@@ -32,6 +36,8 @@ while True:
         print("failed to grab frame")
         break
     cv2.imshow("Picture Take", frame)
+
+    
 
     k = cv2.waitKey(1)
     if k%256 == 27:

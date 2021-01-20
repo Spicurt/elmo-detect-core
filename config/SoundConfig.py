@@ -10,3 +10,6 @@ Sounds = [
 def SoundStart():
     soundToPlay = random.choice(Sounds)
     playsound(soundToPlay)
+
+def helloElmo():
+    playsound("./Sounds/hielmo.wav")
