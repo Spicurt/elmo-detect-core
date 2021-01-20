@@ -8,5 +8,7 @@ Disclaimer: All this is open sourced, and if you have any question, feel free to
 
 This project was made using OpenCV and Haar-cascade classifiers. 
 
+Links:
 OpenCV: https://github.com/opencv/opencv
+
 Haar-cascade: https://github.com/opencv/opencv/tree/master/data/haarcascades
