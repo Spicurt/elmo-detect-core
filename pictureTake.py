@@ -1,18 +1,22 @@
 import cv2
 from multiprocessing import Process
-import sys
 from subprocess import call
+import time
+import sys
 
-class callPy(object):
-    def __init__(self, path = 'faceDetect.py'):
-        self.path = path
+sys.path.insert(1, './config/')
 
-    def callFile(self):
-        call(["Python3", "{}".format(self.path)])
-
-c = callPy()
+from configFunctions import detect
 
 img = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+
+def make_1080p():
+    img.set(3, 1920)
+    img.set(4, 1080)
+
+make_1080p()
+
+font = cv2.FONT_HERSHEY_SIMPLEX
 
 cv2.namedWindow("Picture Take")
 
@@ -20,6 +24,10 @@ img_counter = 0
 
 while True:
     ret, frame = img.read()
+
+    cv2.putText(frame,'Press space to take start.',(50, 50),font, 1,(0, 0, 0),2,cv2.LINE_4) 
+    cv2.putText(frame,'Press escape to leave.',(50, 100),font, 1,(0, 0, 0),2,cv2.LINE_4)
+
     if not ret:
         print("failed to grab frame")
         break
@@ -29,15 +37,38 @@ while True:
     if k%256 == 27:
         # ESC pressed
         print("Escape hit, closing...")
+        time.sleep(1)
         sys.exit()
-        break
     elif k%256 == 32:
         # SPACE pressed
+        k
         img_name = "Photo.png".format(img_counter)
         cv2.imwrite("./images/Photo.png", frame)
-        c.callFile()
         print("{} written!".format(img_name))
-        img_counter += 1
-        sys.exit()
+        while True:
+            img_e = cv2.imread("./images/Photo.png")
+
+            classifier = cv2.CascadeClassifier('./lib/haarcascade/haarcascade_frontalface_default.xml')
+            eye_classifier = cv2.CascadeClassifier('./lib/haarcascade/haarcascade_eye_tree_eyeglasses.xml')
+
+            faceBox = classifier.detectMultiScale(img_e)
+
+            for box in faceBox:
+                x, y, width, height = box
+                x2, y2 = x + width, y + height
+                cv2.rectangle(img_e, (x, y), (x2, y2), (0,0,255), 1)
+
+            eyeBoxes = eye_classifier.detectMultiScale(img_e)
+
+            for box in eyeBoxes:
+                x, y, width, height = box
+                x2, y2 = x + width, y + height
+                cv2.rectangle(img_e, (x, y), (x2, y2), (0,255,0), 1)
+                img_counter += 1
+
+            cv2.imshow('Face Detection', img_e) 
+
+            if cv2.waitKey(1):
+                break
         
-img.release()
+
