@@ -62,6 +62,8 @@ while True:
 
             classifier = cv2.CascadeClassifier('./Resource/haarcascade_frontalface_alt_tree.xml')
             eye_classifier = cv2.CascadeClassifier('./Resource/haarcascade_eye_default.xml')
+            REye_classifier =  cv2.CascadeClassifier('./Resource/haacascade_righteye_2plit.xml')
+            LEye_classifier = cv2.CascadeClassifier('./Resource/haacascade_lefteye_2plit')
 
             faceBox = classifier.detectMultiScale(img_e)
 
@@ -77,6 +79,23 @@ while True:
                 x2, y2 = x + width, y + height
                 cv2.rectangle(img_e, (x, y), (x2, y2), (0,255,0), 1)
                 img_counter += 1
+            """
+            REyeBox = REye_classifier.detectMultiScale(img_e)
+
+            for box in REyebox:
+                x, y, width, height = box
+                x2, y2 = x + width, y + height
+                cv2.rectangle(img_e, (x,y), (x2, y2), (255,0,0), 1)
+                img counter += 1
+
+            LEyeBox = LEye_classifier.detectMultiScale(img_e)
+
+            for box in LEyebox:
+                x, y, width, height = box
+                x2, y2 = x + width, y + height
+                cv2.rectangle(img_e, (x,y), (x2, y2), (255,0,0), 1)
+                img counter += 1
+            """
 
             cv2.imshow('Face Detection', img_e) 
 
