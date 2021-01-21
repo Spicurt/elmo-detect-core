@@ -12,4 +12,4 @@ def SoundStart():
     playsound(soundToPlay)
 
 def helloElmo():
-    playsound("./Sounds/hielmo.wav")
+    playsound("./Sounds/hiElmo.wav")
