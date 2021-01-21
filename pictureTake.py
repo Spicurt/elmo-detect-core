@@ -44,7 +44,7 @@ while True:
         # ESC pressed
         print("Escape hit, closing...")
         time.sleep(1)
-        sys.exit()
+        exit()
     elif k%256 == 32:
         # SPACE pressed
         k
@@ -52,11 +52,9 @@ while True:
         cv2.imwrite("./images/Photo.png", frame)
         print("{} written!".format(img_name))
         
-        #Facedetect Loop
-        
-        
         playedSound = random.choice(Sounds)
-        
+
+        #Facedetect Loop
         while True:
             s = Process(target = SoundStart)
 
